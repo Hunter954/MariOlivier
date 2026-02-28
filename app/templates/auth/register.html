@@ -1,40 +1,51 @@
 {% extends "layout.html" %}
 {% set title = "Criar conta • Mari-Olivier" %}
 {% block body %}
+<div class="auth-bg">
+  <div class="auth-card">
+    <div class="brand-mark">Mari-Olivier</div>
+    <div class="brand-sub">Criar conta</div>
 
-Mari-Olivier
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-wrap">
+        {% for cat, msg in messages %}
+          <div class="flash {{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
 
-Criar conta
+    <form method="post" class="auth-form" autocomplete="on">
+      {{ form.csrf_token }}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
+      <div>
+        <div class="tiny muted">Nome</div>
+        {{ form.name(class_="input", placeholder="Seu nome", autocomplete="name") }}
+      </div>
 
-    {% for cat, msg in messages %}
+      <div>
+        <div class="tiny muted">Email</div>
+        {{ form.email(class_="input", placeholder="seuemail@exemplo.com", autocomplete="email") }}
+      </div>
 
-      {{ msg }}
+      <div>
+        <div class="tiny muted">Senha</div>
+        {{ form.password(class_="input", placeholder="••••••••", autocomplete="new-password") }}
+      </div>
 
-    {% endfor %}
+      <div>
+        <div class="tiny muted">Confirmar senha</div>
+        {{ form.confirm_password(class_="input", placeholder="••••••••", autocomplete="new-password") }}
+      </div>
 
-  {% endif %}
-{% endwith %}
+      <button class="btn primary" type="submit">Cadastrar</button>
 
-{{ form.csrf_token }}
-
-Nome
-{{ form.name(class_="input", placeholder="Seu nome") }}
-
-Email
-{{ form.email(class_="input", placeholder="seuemail@exemplo.com") }}
-
-Senha
-{{ form.password(class_="input", placeholder="••••••••") }}
-
-Confirmar senha
-{{ form.confirm_password(class_="input", placeholder="••••••••") }}
-
-Criar conta
-
-Já tem conta?
-<a href="{{ url_for('auth.login') }}">Fazer login</a>
-
+      <div class="row between align">
+        <div class="muted tiny">Já tem conta?</div>
+        <a class="link tiny" href="{{ url_for('auth.login') }}">Fazer login</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

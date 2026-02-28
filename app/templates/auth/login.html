@@ -1,36 +1,45 @@
 {% extends "layout.html" %}
 {% set title = "Login • Mari-Olivier" %}
 {% block body %}
+<div class="auth-bg">
+  <div class="auth-card">
+    <div class="brand-mark">Mari-Olivier</div>
+    <div class="brand-sub">Acesso à plataforma</div>
 
-Mari-Olivier
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-wrap">
+        {% for cat, msg in messages %}
+          <div class="flash {{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
 
-Acesso à plataforma
+    <form method="post" class="auth-form" autocomplete="on">
+      {{ form.csrf_token }}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
+      <div>
+        <div class="tiny muted">Email</div>
+        {{ form.email(class_="input", placeholder="seuemail@exemplo.com", autocomplete="email") }}
+      </div>
 
-    {% for cat, msg in messages %}
+      <div>
+        <div class="tiny muted">Senha</div>
+        {{ form.password(class_="input", placeholder="••••••••", autocomplete="current-password") }}
+      </div>
 
-      {{ msg }}
+      <div class="row between align">
+        <label class="checkbox">
+          {{ form.remember() }}
+          <span>Manter conectado</span>
+        </label>
 
-    {% endfor %}
+        <a class="link tiny" href="{{ url_for('auth.register') }}">Criar conta</a>
+      </div>
 
-  {% endif %}
-{% endwith %}
-
-{{ form.csrf_token }}
-
-Email
-{{ form.email(class_="input", placeholder="seuemail@exemplo.com") }}
-
-Senha
-{{ form.password(class_="input", placeholder="••••••••") }}
-
-{{ form.remember() }} Manter conectado
-
-Entrar
-
-Não tem conta?
-<a href="{{ url_for('auth.register') }}">Criar conta</a>
-
+      <button class="btn primary" type="submit">Entrar</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
