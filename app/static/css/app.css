@@ -123,6 +123,7 @@ a{color:inherit;text-decoration:none}
   display:grid;
   grid-template-columns: 1.1fr 1fr;
   gap:22px;
+  align-items:start;
 }
 .col-left,.col-right{min-width:0}
 
@@ -358,4 +359,34 @@ label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}
   .profile-name{display:none}
   .grid-seasons{grid-template-columns: repeat(2, minmax(0, 1fr))}
   .grid-episodes{grid-template-columns:1fr}
+}
+
+
+/* Fix: avoid double outline on Home hero */
+.hero.card{border:none;}
+
+
+/* Fix: avoid double outline on season/episode cards (card already has stroke) */
+.card.season .thumb,
+.card.episode .thumb{border:none;}
+
+/* Watch page: keep player inside viewport (avoid vertical scroll on Full HD) */
+.watch-page{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  min-height: calc(100vh - 48px); /* app-shell padding (24px top/bottom) */
+}
+.watch-page .player-wrap{
+  width:100%;
+  flex:1;
+  min-height:0;
+}
+.watch-page .player-wrap.vertical{
+  width: min(420px, 100%);
+  max-height: calc(100vh - 340px);
+  margin: 0 auto;
+}
+.watch-page .player-wrap.horizontal{
+  max-height: calc(100vh - 340px);
 }
