@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar %}
+{% set title = "Admin • Mari-Olivier" %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("admin", current_user) }}
+  <main class="main">
+    {{ topbar(current_user) }}
+    <section class="page">
+      <div class="row between align">
+        <h1 class="page-title">Admin</h1>
+        <div class="row">
+          <a class="btn" href="{{ url_for('admin.season_new') }}">+ Temporada</a>
+          <a class="btn" href="{{ url_for('admin.episode_new') }}">+ Episódio</a>
+          <a class="btn" href="{{ url_for('admin.users') }}">Usuários</a>
+        </div>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-wrap">
+            {% for cat, msg in messages %}
+              <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <div class="admin-grid">
+        <div class="card big">
+          <div class="row between align">
+            <div class="h2">Temporadas</div>
+            <span class="muted">{{ seasons|length }} total</span>
+          </div>
+          <div class="table">
+            <div class="thead">
+              <div>Nº</div><div>Título</div><div>Status</div><div>Ações</div>
+            </div>
+            {% for s in seasons %}
+              <div class="trow">
+                <div>{{ s.number }}</div>
+                <div>{{ s.title }}</div>
+                <div><span class="pill {{ 'on' if s.is_published else 'off' }}">{{ 'Publicada' if s.is_published else 'Oculta' }}</span></div>
+                <div class="row">
+                  <a class="link" href="{{ url_for('main.temporada_detail', season_id=s.id) }}">Ver</a>
+                  <a class="link" href="{{ url_for('admin.season_edit', season_id=s.id) }}">Editar</a>
+                  <form method="post" action="{{ url_for('admin.season_delete', season_id=s.id) }}" onsubmit="return confirm('Excluir temporada?')">
+                    <button class="link danger" type="submit">Excluir</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="card big">
+          <div class="row between align">
+            <div class="h2">Últimos episódios</div>
+            <span class="muted">10 mais recentes</span>
+          </div>
+          <div class="table">
+            <div class="thead">
+              <div>Temp</div><div>Epis</div><div>Título</div><div>Ações</div>
+            </div>
+            {% for ep in episodes %}
+              <div class="trow">
+                <div>{{ ep.season.number }}</div>
+                <div>{{ ep.episode_number }}</div>
+                <div>{{ ep.title }}</div>
+                <div class="row">
+                  <a class="link" href="{{ url_for('main.assistir', episode_id=ep.id) }}">Assistir</a>
+                  <a class="link" href="{{ url_for('admin.episode_edit', episode_id=ep.id) }}">Editar</a>
+                  <form method="post" action="{{ url_for('admin.episode_delete', episode_id=ep.id) }}" onsubmit="return confirm('Excluir episódio?')">
+                    <button class="link danger" type="submit">Excluir</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+{% endblock %}

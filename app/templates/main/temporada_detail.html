@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar, card_episode %}
+{% set title = "Temporada " ~ season.number ~ " • Mari-Olivier" %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("temporadas", user) }}
+  <main class="main">
+    {{ topbar(user) }}
+    <section class="page">
+      <div class="row between align">
+        <div>
+          <h1 class="page-title">Temporada {{ season.number }} • {{ season.title }}</h1>
+          {% if season.description %}<div class="muted">{{ season.description }}</div>{% endif %}
+        </div>
+        {% if user.is_admin %}
+          <a class="btn" href="{{ url_for('admin.episode_new', season_id=season.id) }}">+ Episódio</a>
+        {% endif %}
+      </div>
+
+      <div class="grid-episodes">
+        {% for ep in episodes %}
+          {{ card_episode(ep, small=False) }}
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+</div>
+{% endblock %}

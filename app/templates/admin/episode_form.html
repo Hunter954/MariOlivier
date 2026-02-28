@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar %}
+{% set title = ("Novo Episódio" if mode=="new" else "Editar Episódio") ~ " • Admin" %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("admin", current_user) }}
+  <main class="main">
+    {{ topbar(current_user) }}
+    <section class="page">
+      <h1 class="page-title">{{ "Novo Episódio" if mode=="new" else "Editar Episódio" }}</h1>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-wrap">
+            {% for cat, msg in messages %}
+              <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" class="form card big" action="{% if mode=='new' %}{{ url_for('admin.episode_new_post') }}{% else %}{{ url_for('admin.episode_edit_post', episode_id=ep.id) }}{% endif %}">
+        {{ form.csrf_token }}
+        <div class="form-grid">
+          <div>
+            <label>ID da Temporada</label>
+            {{ form.season_id(class_="input", placeholder="Ex: 1") }}
+            <div class="muted tiny">Dica: no Admin → Temporadas, veja o ID na URL ao editar.</div>
+          </div>
+          <div>
+            <label>Nº do Episódio</label>
+            {{ form.episode_number(class_="input") }}
+          </div>
+          <div class="span-2">
+            <label>Título</label>
+            {{ form.title(class_="input") }}
+          </div>
+          <div class="span-2">
+            <label>Descrição</label>
+            {{ form.description(class_="input textarea", rows="4") }}
+          </div>
+          <div>
+            <label>Duração (min)</label>
+            {{ form.duration_minutes(class_="input") }}
+          </div>
+          <div>
+            <label>Formato</label>
+            {{ form.aspect(class_="input") }}
+          </div>
+          <div class="span-2">
+            <label>Link do YouTube (unlisted)</label>
+            {{ form.youtube_url(class_="input", placeholder="https://youtu.be/XXXXXXXXXXX") }}
+          </div>
+          <div class="span-2">
+            <label>Thumbnail (URL)</label>
+            {{ form.thumbnail_url(class_="input") }}
+          </div>
+          <div>
+            <label>Liberação (opcional)</label>
+            {{ form.release_at(class_="input", placeholder="2026-03-02 09:00") }}
+            <div class="muted tiny">Formato: AAAA-MM-DD HH:MM</div>
+          </div>
+          <div class="span-2">
+            <label class="checkbox">
+              {{ form.is_published() }}
+              <span>Publicado</span>
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn primary" type="submit">Salvar</button>
+          <a class="btn" href="{{ url_for('admin.index') }}">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+{% endblock %}

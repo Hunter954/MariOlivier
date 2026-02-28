@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar %}
+{% set title = "Assistir • " ~ ep.title %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("home", user) }}
+  <main class="main">
+    {{ topbar(user) }}
+    <section class="page">
+      <div class="row between align">
+        <div>
+          <h1 class="page-title">Temporada {{ ep.season.number }} • Episódio {{ ep.episode_number }}</h1>
+          <div class="muted">{{ ep.title }}{% if ep.duration_minutes %} • {{ ep.duration_minutes }}min{% endif %}</div>
+        </div>
+        <a class="btn" href="{{ url_for('main.temporada_detail', season_id=ep.season.id) }}">Voltar</a>
+      </div>
+
+      <div class="player-wrap {{ ep.aspect }}">
+        <iframe
+          src="{{ embed_url }}"
+          title="{{ ep.title }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      {% if ep.description %}
+        <div class="card big" style="margin-top:18px;">
+          <div class="muted">{{ ep.description }}</div>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+</div>
+{% endblock %}

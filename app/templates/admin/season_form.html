@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar %}
+{% set title = ("Nova Temporada" if mode=="new" else "Editar Temporada") ~ " • Admin" %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("admin", current_user) }}
+  <main class="main">
+    {{ topbar(current_user) }}
+    <section class="page">
+      <h1 class="page-title">{{ "Nova Temporada" if mode=="new" else "Editar Temporada" }}</h1>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-wrap">
+            {% for cat, msg in messages %}
+              <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" class="form card big" action="{% if mode=='new' %}{{ url_for('admin.season_new_post') }}{% else %}{{ url_for('admin.season_edit_post', season_id=season.id) }}{% endif %}">
+        {{ form.csrf_token }}
+        <div class="form-grid">
+          <div>
+            <label>Número</label>
+            {{ form.number(class_="input") }}
+          </div>
+          <div>
+            <label>Título</label>
+            {{ form.title(class_="input") }}
+          </div>
+          <div class="span-2">
+            <label>Descrição</label>
+            {{ form.description(class_="input textarea", rows="4") }}
+          </div>
+          <div class="span-2">
+            <label>Thumbnail (URL)</label>
+            {{ form.thumbnail_url(class_="input") }}
+          </div>
+          <div class="span-2">
+            <label class="checkbox">
+              {{ form.is_published() }}
+              <span>Publicada</span>
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn primary" type="submit">Salvar</button>
+          <a class="btn" href="{{ url_for('admin.index') }}">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% macro sidebar(active="home", user=None) -%}
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <div class="logo">
+      <div class="logo-script">Mari-Olivier</div>
+    </div>
+
+    <nav class="menu">
+      <a class="menu-item {{ 'active' if active=='home' else '' }}" href="{{ url_for('main.home') }}">Home</a>
+      <a class="menu-item {{ 'active' if active=='temporadas' else '' }}" href="{{ url_for('main.temporadas') }}">Temporadas</a>
+      <a class="menu-item {{ 'active' if active=='bonus' else '' }}" href="#" onclick="toast('Em breve: Bônus'); return false;">Bônus</a>
+      <a class="menu-item {{ 'active' if active=='extras' else '' }}" href="#" onclick="toast('Em breve: Extras'); return false;">Extras</a>
+    </nav>
+  </div>
+
+  <div class="sidebar-bottom">
+    <a class="menu-item" href="#" onclick="toast('Configurações em breve'); return false;">Configurações</a>
+    <a class="menu-item" href="#" onclick="toast('Fale com o suporte'); return false;">Help</a>
+    {% if user and user.is_admin %}
+      <a class="menu-item admin" href="{{ url_for('admin.index') }}">Admin</a>
+    {% endif %}
+    <a class="menu-item" href="{{ url_for('auth.logout') }}">Sair</a>
+  </div>
+</aside>
+{%- endmacro %}
+
+{% macro topbar(user=None) -%}
+<header class="topbar">
+  <button class="icon-btn mobile-only" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  <div class="search">
+    <input id="searchInput" placeholder="Buscar, episódios, bônus...." />
+  </div>
+  <div class="profile">
+    <div class="circle" title="Notificações"></div>
+    <div class="circle" title="Conta"></div>
+    <div class="profile-name">{{ user.name if user else '' }}</div>
+  </div>
+</header>
+{%- endmacro %}
+
+{% macro card_episode(ep, small=False) -%}
+<a class="card episode {{ 'small' if small else '' }}" href="{{ url_for('main.assistir', episode_id=ep.id) }}" data-search="{{ (ep.title ~ ' temporada ' ~ ep.season.number ~ ' episodio ' ~ ep.episode_number)|lower }}">
+  <div class="thumb" style="{% if ep.thumbnail_url %}background-image:url('{{ ep.thumbnail_url }}');{% endif %}">
+    {% if not ep.thumbnail_url %}<div class="thumb-placeholder"></div>{% endif %}
+  </div>
+  <div class="card-meta">
+    <div class="card-title">Temporada {{ ep.season.number }} • Episódio {{ ep.episode_number }}</div>
+    <div class="card-sub">{{ ep.title }}{% if ep.duration_minutes %} • {{ ep.duration_minutes }}min{% endif %}</div>
+    <div class="btn tiny">Reproduzir</div>
+  </div>
+</a>
+{%- endmacro %}
+
+{% macro card_season(season) -%}
+<a class="card season" href="{{ url_for('main.temporada_detail', season_id=season.id) }}" data-search="{{ ('temporada ' ~ season.number ~ ' ' ~ season.title)|lower }}">
+  <div class="thumb" style="{% if season.thumbnail_url %}background-image:url('{{ season.thumbnail_url }}');{% endif %}">
+    {% if not season.thumbnail_url %}<div class="thumb-placeholder"></div>{% endif %}
+  </div>
+  <div class="season-label">Temporada {{ season.number }}</div>
+</a>
+{%- endmacro %}

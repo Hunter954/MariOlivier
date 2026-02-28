@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% set title = "Login • Mari-Olivier" %}
+{% block body %}
+<div class="auth-bg">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand-mark">Mari-Olivier</div>
+      <div class="brand-sub">Acesso à plataforma</div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for cat, msg in messages %}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.login_post') }}" class="auth-form">
+      {{ form.csrf_token }}
+      <label>Email</label>
+      {{ form.email(class_="input", placeholder="seuemail@exemplo.com") }}
+      <label>Senha</label>
+      {{ form.password(class_="input", placeholder="••••••••") }}
+
+      <div class="row between">
+        <label class="checkbox">
+          {{ form.remember() }}
+          <span>Manter conectado</span>
+        </label>
+        <span class="muted">Admin cria usuários no banco</span>
+      </div>
+
+      <button class="btn primary" type="submit">Entrar</button>
+    </form>
+
+    <div class="muted tiny">
+      Se for o primeiro acesso, defina <b>ADMIN_EMAIL</b> e <b>ADMIN_PASSWORD</b nas variáveis do Railway.
+    </div>
+  </div>
+</div>
+{% endblock %}

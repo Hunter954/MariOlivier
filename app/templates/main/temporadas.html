@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar, card_season %}
+{% set title = "Temporadas • Mari-Olivier" %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("temporadas", user) }}
+  <main class="main">
+    {{ topbar(user) }}
+    <section class="page">
+      <h1 class="page-title">Temporadas</h1>
+      <div class="grid-seasons">
+        {% for s in seasons %}
+          {{ card_season(s) }}
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+</div>
+{% endblock %}

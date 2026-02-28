@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import sidebar, topbar %}
+{% set title = "Usuários • Admin" %}
+{% block body %}
+<div class="app-shell">
+  {{ sidebar("admin", current_user) }}
+  <main class="main">
+    {{ topbar(current_user) }}
+    <section class="page">
+      <div class="row between align">
+        <h1 class="page-title">Usuários</h1>
+        <a class="btn" href="{{ url_for('admin.index') }}">Voltar</a>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-wrap">
+            {% for cat, msg in messages %}
+              <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <div class="card big">
+        <div class="table">
+          <div class="thead">
+            <div>Nome</div><div>Email</div><div>Admin</div><div>Ações</div>
+          </div>
+          {% for u in users %}
+            <div class="trow">
+              <div>{{ u.name }}</div>
+              <div>{{ u.email }}</div>
+              <div><span class="pill {{ 'on' if u.is_admin else 'off' }}">{{ 'Sim' if u.is_admin else 'Não' }}</span></div>
+              <div>
+                <form method="post" action="{{ url_for('admin.toggle_admin', user_id=u.id) }}">
+                  <button class="link" type="submit">{{ 'Remover admin' if u.is_admin else 'Tornar admin' }}</button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="muted tiny" style="margin-top:10px;">
+          Para cadastrar usuários, insira diretamente no banco (ou adapte para cadastro público depois).
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+{% endblock %}
