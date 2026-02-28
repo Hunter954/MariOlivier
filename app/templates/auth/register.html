@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% set title = "Login • Mari-Olivier" %}
+{% set title = "Criar conta • Mari-Olivier" %}
 {% block body %}
 
 Mari-Olivier
 
-Acesso à plataforma
+Criar conta
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -20,17 +20,21 @@ Acesso à plataforma
 
 {{ form.csrf_token }}
 
+Nome
+{{ form.name(class_="input", placeholder="Seu nome") }}
+
 Email
 {{ form.email(class_="input", placeholder="seuemail@exemplo.com") }}
 
 Senha
 {{ form.password(class_="input", placeholder="••••••••") }}
 
-{{ form.remember() }} Manter conectado
+Confirmar senha
+{{ form.confirm_password(class_="input", placeholder="••••••••") }}
 
-Entrar
+Criar conta
 
-Não tem conta?
-<a href="{{ url_for('auth.register') }}">Criar conta</a>
+Já tem conta?
+<a href="{{ url_for('auth.login') }}">Fazer login</a>
 
 {% endblock %}
