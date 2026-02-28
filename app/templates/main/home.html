@@ -11,32 +11,34 @@
       <div class="col-left">
         <h2 class="section-title">Temporada atual</h2>
         <div class="hero card big">
-          <div class="hero-cover">
-            {% if current_season and current_season.thumbnail_url %}
-              <div class="hero-thumb" style="background-image:url('{{ current_season.thumbnail_url }}')"></div>
-            {% else %}
-              <div class="hero-thumb"></div>
-            {% endif %}
-            <div class="hero-overlay"></div>
-          </div>
-
-          {% if continue_episode %}
-          <div class="continue">
-            <div class="kicker">Continue Assistindo</div>
-            <div class="h1">Temporada {{ continue_episode.season.number }} • Episódio {{ continue_episode.episode_number }}</div>
-            <div class="sub">Episódio {{ continue_episode.episode_number }}: {{ continue_episode.title }}{% if continue_episode.duration_minutes %} - {{ continue_episode.duration_minutes }}min{% endif %}</div>
-            <div class="row">
-              <a class="btn primary" href="{{ url_for('main.assistir', episode_id=continue_episode.id) }}">Retomar</a>
-              <a class="btn" href="{{ url_for('main.temporada_detail', season_id=continue_episode.season.id) }}">Recomeçar</a>
+          <div class="hero-story">
+            <div class="hero-cover">
+              {% if current_season and current_season.thumbnail_url %}
+                <div class="hero-thumb" style="background-image:url('{{ current_season.thumbnail_url }}')"></div>
+              {% else %}
+                <div class="hero-thumb"></div>
+              {% endif %}
+              <div class="hero-overlay"></div>
             </div>
+
+            {% if continue_episode %}
+            <div class="continue">
+              <div class="kicker">Continue Assistindo</div>
+              <div class="h1">Temporada {{ continue_episode.season.number }} • Episódio {{ continue_episode.episode_number }}</div>
+              <div class="sub">Episódio {{ continue_episode.episode_number }}: {{ continue_episode.title }}{% if continue_episode.duration_minutes %} - {{ continue_episode.duration_minutes }}min{% endif %}</div>
+              <div class="row">
+                <a class="btn primary" href="{{ url_for('main.assistir', episode_id=continue_episode.id) }}">Retomar</a>
+                <a class="btn" href="{{ url_for('main.temporada_detail', season_id=continue_episode.season.id) }}">Recomeçar</a>
+              </div>
+            </div>
+            {% else %}
+            <div class="continue">
+              <div class="kicker">Sem episódios ainda</div>
+              <div class="h1">Cadastre episódios no Admin</div>
+              <div class="sub">Defina temporadas, thumbnails e links do YouTube.</div>
+            </div>
+            {% endif %}
           </div>
-          {% else %}
-          <div class="continue">
-            <div class="kicker">Sem episódios ainda</div>
-            <div class="h1">Cadastre episódios no Admin</div>
-            <div class="sub">Defina temporadas, thumbnails e links do YouTube.</div>
-          </div>
-          {% endif %}
         </div>
       </div>
 
