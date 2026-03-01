@@ -38,7 +38,7 @@ a{color:inherit;text-decoration:none}
 .section-title{font-size:22px;font-weight:700;margin:0 0 14px}
 
 .app-shell{display:flex;min-height:100vh;padding:24px;gap:24px}
-.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+.main{flex:1;min-width:0}
 
 .sidebar{
   width:320px;
@@ -123,14 +123,8 @@ a{color:inherit;text-decoration:none}
   display:grid;
   grid-template-columns: 1.1fr 1fr;
   gap:22px;
-  flex:1;
-  min-height:0;
-  align-items:stretch;
 }
-.col-left,.col-right{min-width:0;min-height:0}
-.col-left{display:flex;flex-direction:column;height:100%;}
-.col-left .hero{flex:1;min-height:0;}
-
+.col-left,.col-right{min-width:0}
 
 .card{
   border:1px solid var(--stroke);
@@ -184,13 +178,8 @@ a{color:inherit;text-decoration:none}
   width:170px; flex:0 0 auto;
   padding:16px;
   position:relative;
-  border:none;
-  box-shadow:none;
-  background:transparent;
 }
 .card.season .thumb{width:100%;height:210px;border-radius:28px}
-.card.season .thumb{border:1px solid var(--stroke); background:rgba(0,0,0,.08);}
-
 .season-label{
   position:absolute;left:16px;top:14px;
   font-weight:700;font-size:13px;
@@ -372,13 +361,14 @@ label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}
 }
 
 
-/* HERO: sem borda/sombra e alinhado à esquerda, ocupando a altura até a base da sidebar */
-.hero{border:none;box-shadow:none;background:transparent;padding:0;}
-.hero-story{
-  margin:0;           /* não centraliza */
-  border:none;        /* remove outline do player */
-  box-shadow:none;    /* remove sombra preta */
-  background:transparent;
-  align-self:flex-start;
-}
+/* --- Home: alinhar hero na base da sidebar (pixel) --- */
+.main{display:flex;flex-direction:column;min-height:100%}
+.grid{flex:1;align-items:stretch}
+.col-left,.col-right{min-height:0}
+.col-left{display:flex;flex-direction:column}
+.hero.card.big{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:flex-start;border:none;box-shadow:none}
+.hero{border-radius:24px} /* radius mais delicado no hero */
+.hero-story{margin:0;border:none;box-shadow:none}
 
+/* Próximas temporadas: garantir que NÃO exista borda no card externo */
+.row-seasons .card{border:none;box-shadow:none;background:transparent}
