@@ -180,6 +180,26 @@ a{color:inherit;text-decoration:none}
   position:relative;
 }
 .card.season .thumb{width:100%;height:210px;border-radius:28px}
+
+
+/* SEASON card override: no outer outline/halo (keep only the thumb stroke) */
+a.card.season{
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+a.card.season .thumb{
+  /* keep a single delicate outline around the image */
+  box-shadow: none !important;
+}
+a.card.season .season-label{
+  position: static !important;
+  margin-top: 10px;
+  padding-left: 2px;
+}
+
 .season-label{
   position:absolute;left:16px;top:14px;
   font-weight:700;font-size:13px;
@@ -189,14 +209,35 @@ a{color:inherit;text-decoration:none}
 .hero-story{
   position:relative;
   width:min(420px, 100%);
-  margin: 0; /* alinhado à esquerda */
+  margin: 0 auto;
   aspect-ratio: 9 / 16;
   border-radius: var(--radius);
   overflow:hidden;
-  border:none; /* remove outline */
-  background: transparent; /* remove fundo escuro */
-  box-shadow: none; /* remove sombra */
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,.14);
+  box-shadow: var(--shadow);
 }
+
+
+/* HERO overrides: remove outer card outline/shadow; keep only the player (hero-story) */
+.hero.card.big{
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.hero{
+  /* the wrapper shouldn't look like a card */
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.hero-story{
+  /* align with the 'Temporada atual' title (left), no extra halo */
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .hero-cover{position:absolute;inset:0}
 .hero-thumb{
   position:absolute;inset:0;
