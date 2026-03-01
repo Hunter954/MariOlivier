@@ -14,9 +14,10 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
-
-/* Mantém a largura estável entre páginas com/sem scrollbar (evita o menu “pular” de tamanho) */
+/* Evita “pulo” de largura entre páginas com/sem scroll (menu aparenta mudar de tamanho) */
 html{scrollbar-gutter: stable; overflow-y: scroll;}
+body{overflow-y: scroll;}
+
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -44,7 +45,8 @@ a{color:inherit;text-decoration:none}
 .main{flex:1;min-width:0}
 
 .sidebar{
-  width:320px;
+  flex:0 0 320px;
+width:320px;
   background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
   border:1px solid var(--stroke);
   border-radius:50px;
@@ -361,9 +363,4 @@ label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}
   .profile-name{display:none}
   .grid-seasons{grid-template-columns: repeat(2, minmax(0, 1fr))}
   .grid-episodes{grid-template-columns:1fr}
-}
-
-html{
-  scrollbar-gutter: stable;
-  overflow-y: scroll; /* garante espaço fixo */
 }
