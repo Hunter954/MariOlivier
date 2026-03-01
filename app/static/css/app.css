@@ -8,16 +8,16 @@
   --muted:rgba(247,241,243,.7);
   --accent:#f4b24c; /* laranja */
   --accent2:#ffcc73;
-  --shadow:0 18px 50px rgba(0,0,0,.35);
-  --radius:50px;
+  --shadow:none;
+  --radius:32px;
+  --radius-soft:28px;
+  --radius-thumb:22px;
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
-/* Evita “pulo” de largura entre páginas com/sem scroll (menu aparenta mudar de tamanho) */
 html{scrollbar-gutter: stable; overflow-y: scroll;}
 body{overflow-y: scroll;}
-
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -46,7 +46,9 @@ a{color:inherit;text-decoration:none}
 
 .sidebar{
   flex:0 0 320px;
-width:320px;
+  width:320px;
+
+  width:320px;
   background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
   border:1px solid var(--stroke);
   border-radius:50px;
@@ -128,14 +130,15 @@ width:320px;
   display:grid;
   grid-template-columns: 1.1fr 1fr;
   gap:22px;
+  align-items:start;
 }
 .col-left,.col-right{min-width:0}
 
 .card{
   border:1px solid var(--stroke);
   background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.10));
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-soft, var(--radius));
+  box-shadow: none;
 }
 .card.big{padding:18px}
 .card.episode.small{
@@ -150,14 +153,14 @@ width:320px;
 .card.episode.small{display:block}
 .thumb{
   width:88px; height:88px;
-  border-radius:22px;
+  border-radius: var(--radius-thumb, 22px);
   border:1px solid var(--stroke);
   background: rgba(0,0,0,.20);
   background-size:cover;
   background-position:center;
   overflow:hidden;
 }
-.card.episode.small .thumb{width:100%; height:120px; border-radius:22px}
+.card.episode.small .thumb{width:100%; height:120px; border-radius: var(--radius-thumb, 22px)}
 .thumb-placeholder{
   width:100%;height:100%;
   background: radial-gradient(240px 120px at 20% 20%, rgba(244,178,76,.16), rgba(0,0,0,.18));
@@ -179,28 +182,37 @@ width:320px;
   overflow:auto;
   padding-bottom:6px;
 }
+
+
+/* Single-outline cards (mantém apenas o stroke na thumb, evita “double outline”) */
+.card.season,
+.card.episode.small{
+  border:none;
+  box-shadow:none;
+  background:transparent;
+}
 .card.season{
   width:170px; flex:0 0 auto;
   padding:16px;
   position:relative;
 }
-.card.season .thumb{width:100%;height:210px;border-radius:28px}
+.card.season .thumb{width:100%;height:210px;border-radius: var(--radius-soft, 28px)}
 .season-label{
   position:absolute;left:16px;top:14px;
   font-weight:700;font-size:13px;
 }
 
-.hero{position:relative;overflow:hidden;min-height:620px;border-radius:var(--radius)}
+.hero{position:relative;overflow:hidden;min-height:620px;border-radius:var(--radius-soft, var(--radius))}
 .hero-story{
   position:relative;
   width:min(420px, 100%);
   margin: 0 auto;
   aspect-ratio: 9 / 16;
-  border-radius: var(--radius);
+  border-radius: var(--radius-soft, var(--radius));
   overflow:hidden;
   border:1px solid var(--stroke);
   background: rgba(0,0,0,.14);
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 .hero-cover{position:absolute;inset:0}
 .hero-thumb{
@@ -254,15 +266,15 @@ width:320px;
 
 .player-wrap{
   width:100%;
-  border-radius: 28px;
+  border-radius: var(--radius-soft, 28px);
   overflow:hidden;
   border:1px solid var(--stroke);
   background: rgba(0,0,0,.24);
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 .player-wrap iframe{width:100%;height:100%}
 .player-wrap.horizontal{aspect-ratio:16/9}
-.player-wrap.vertical{aspect-ratio:9/16; max-width:520px; margin: 0 auto;}
+.player-wrap.vertical{aspect-ratio:9/16; max-width:520px; margin: 0 auto; height:min(calc(100vh - 260px), 820px); width:auto;}
 
 .form{max-width:920px}
 .form-grid{
